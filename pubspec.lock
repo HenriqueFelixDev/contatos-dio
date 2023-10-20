@@ -73,6 +73,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.2"
+  contact_api:
+    dependency: "direct main"
+    description:
+      path: "packages/contact_api"
+      relative: true
+    source: path
+    version: "1.0.0"
+  contact_api_parse:
+    dependency: "direct main"
+    description:
+      path: "packages/contact_api_parse"
+      relative: true
+    source: path
+    version: "1.0.0"
   contact_auth_api:
     dependency: "direct main"
     description:
@@ -112,7 +126,7 @@ packages:
     source: hosted
     version: "5.3.3"
   equatable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: equatable
       sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2

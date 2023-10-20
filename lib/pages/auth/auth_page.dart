@@ -4,6 +4,8 @@ import 'package:contact_auth_api/contact_auth_api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../contacts/contacts_page.dart';
+
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
 
@@ -23,7 +25,7 @@ class _AuthPageState extends State<AuthPage> {
       if (authState == AuthState.authenticated) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => Container(color: Colors.blue)),
+          MaterialPageRoute(builder: (_) => const ContactsPage()),
         );
       }
     });

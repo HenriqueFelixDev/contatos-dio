@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../auth/auth_page.dart';
+import '../contacts/contacts_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -25,12 +26,15 @@ class _SplashPageState extends State<SplashPage> {
         Widget page;
 
         if (authState == AuthState.authenticated) {
-          page = Container(color: Colors.blue);
+          page = const ContactsPage();
         } else {
           page = const AuthPage();
         }
 
-        Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => page),
+        );
       });
     });
   }

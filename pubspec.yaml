@@ -15,9 +15,14 @@ dependencies:
     path: ./packages/contact_auth_api
   contact_auth_api_parse:
     path: ./packages/contact_auth_api_parse
+  contact_api:
+    path: ./packages/contact_api
+  contact_api_parse:
+    path: ./packages/contact_api_parse
   google_sign_in: ^6.1.5
   firebase_core: ^2.19.0
   flutter_dotenv: ^5.1.0
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:

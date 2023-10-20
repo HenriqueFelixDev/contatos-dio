@@ -1,3 +1,5 @@
+import 'package:contact_api/contact_api.dart';
+import 'package:contact_api_parse/contact_api_parse.dart';
 import 'package:contact_auth_api/contact_auth_api.dart';
 import 'package:contact_auth_api_parse/contact_auth_api_parse.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,9 @@ class AppWidget extends StatelessWidget {
             clientKey: dotenv.env['PARSE_CLIENT_KEY'] ?? '',
             serverUrl: dotenv.env['PARSE_SERVER_URL'] ?? '',
           ),
+        ),
+        RepositoryProvider<ContactApi>(
+          create: (_) => ContactApiParse(),
         ),
         StreamProvider<AuthState>(
           initialData: AuthState.loading,
