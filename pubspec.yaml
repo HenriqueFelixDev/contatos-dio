@@ -9,6 +9,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.3
+  provider: ^6.0.5
+  contact_auth_api:
+    path: ./packages/contact_auth_api
+  contact_auth_api_parse:
+    path: ./packages/contact_auth_api_parse
+  google_sign_in: ^6.1.5
+  firebase_core: ^2.19.0
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +26,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - .env
