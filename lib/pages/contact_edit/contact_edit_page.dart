@@ -282,6 +282,7 @@ class _ContactEditForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.read<ContactEditBloc>();
+    const divider = SizedBox(height: 16.0);
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -292,21 +293,21 @@ class _ContactEditForm extends StatelessWidget {
             onChanged: (value) => controller.setName(value),
             keyboardType: TextInputType.name,
             inputFormatters: [LengthLimitingTextInputFormatter(32)],
-            maxLength: 32,
             decoration: const InputDecoration(
               labelText: 'Nome',
             ),
           ),
+          divider,
           TextFormField(
             initialValue: controller.state.email,
             onChanged: (value) => controller.setEmail(value),
             keyboardType: TextInputType.emailAddress,
             inputFormatters: [LengthLimitingTextInputFormatter(64)],
-            maxLength: 64,
             decoration: const InputDecoration(
               labelText: 'E-mail',
             ),
           ),
+          divider,
           TextFormField(
             initialValue: controller.state.phone,
             onChanged: (value) => controller.setPhone(value),
@@ -318,6 +319,7 @@ class _ContactEditForm extends StatelessWidget {
               labelText: 'Telefone',
             ),
           ),
+          divider,
           TextFormField(
             initialValue: controller.state.note,
             onChanged: (value) => controller.setNote(value),

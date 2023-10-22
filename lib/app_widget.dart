@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/splash/splash_page.dart';
+import 'style/app_theme.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -42,9 +43,10 @@ class AppWidget extends StatelessWidget {
           create: (context) => context.read<ContactAuthApi>().authState,
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'Contatos DIO',
-        home: SplashPage(),
+        theme: AppTheme.light(),
+        home: const SplashPage(),
       ),
     );
   }
