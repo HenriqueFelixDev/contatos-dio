@@ -133,7 +133,7 @@ class _ContactHeader extends StatelessWidget {
                   Text(
                     'Selecione o local da imagem',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black54)
+                    style: TextStyle(color: Colors.black54),
                   ),
                   SizedBox(height: 8.0),
                   Wrap(
@@ -220,7 +220,11 @@ class _ContactHeader extends StatelessWidget {
             buildWhen: (previous, current) =>
                 previous.photoUrl != current.photoUrl,
             builder: (context, state) {
-              return ContactPhoto(photoUrl: state.photoUrl, radius: 70.0);
+              return ContactPhoto(
+                contactId: state.initialValue?.id ?? '',
+                photoUrl: state.photoUrl,
+                radius: 70.0,
+              );
             },
           ),
         ),

@@ -23,7 +23,11 @@ class ContactListItem extends StatelessWidget {
       onTap: () => _onPressed(context),
       visualDensity: VisualDensity.compact,
       isThreeLine: true,
-      leading: ContactPhoto(photoUrl: contact.photoUrl, radius: 30.0),
+      leading: ContactPhoto(
+        contactId: contact.id,
+        photoUrl: contact.photoUrl,
+        radius: 30.0,
+      ),
       title: Text(contact.name),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
