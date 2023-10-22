@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:contact_api/contact_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -292,6 +293,8 @@ class _ContactEditForm extends StatelessWidget {
             initialValue: controller.state.name,
             onChanged: (value) => controller.setName(value),
             keyboardType: TextInputType.name,
+            textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.words,
             inputFormatters: [LengthLimitingTextInputFormatter(32)],
             decoration: const InputDecoration(
               labelText: 'Nome',
@@ -302,6 +305,7 @@ class _ContactEditForm extends StatelessWidget {
             initialValue: controller.state.email,
             onChanged: (value) => controller.setEmail(value),
             keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
             inputFormatters: [LengthLimitingTextInputFormatter(64)],
             decoration: const InputDecoration(
               labelText: 'E-mail',
@@ -312,8 +316,10 @@ class _ContactEditForm extends StatelessWidget {
             initialValue: controller.state.phone,
             onChanged: (value) => controller.setPhone(value),
             keyboardType: TextInputType.phone,
+            textInputAction: TextInputAction.next,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
+              TelefoneInputFormatter(),
             ],
             decoration: const InputDecoration(
               labelText: 'Telefone',

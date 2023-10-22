@@ -31,7 +31,9 @@ class ContactEditState extends Equatable {
       status: ContactEditStatus.initial,
       initialValue: initialValue,
       name: initialValue?.name ?? '',
-      phone: initialValue?.phone ?? '',
+      phone: initialValue?.phone != null
+          ? UtilBrasilFields.obterTelefone(initialValue!.phone)
+          : '',
       email: initialValue?.email ?? '',
       photoUrl: initialValue?.photoUrl ?? '',
       note: initialValue?.note,
@@ -45,7 +47,7 @@ class ContactEditState extends Equatable {
     return Contact(
       id: initialValue?.id ?? '',
       name: name,
-      phone: phone,
+      phone: UtilBrasilFields.obterTelefone(phone, mascara: false),
       email: email,
       photoUrl: photoUrl,
       note: note,
