@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:validatorless/validatorless.dart';
 
 import '../../widgets/widgets.dart';
 import 'bloc/contact_edit_bloc.dart';
@@ -88,6 +89,7 @@ class _ContactEditView extends StatelessWidget {
       listenWhen: (previous, current) => previous.status != current.status,
       listener: _onStatusChanged,
       child: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Scaffold(
           appBar: AppBar(
             title: Text(title),
@@ -319,6 +321,10 @@ class _ContactEditForm extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: 'Nome',
             ),
+            validator: Validatorless.multiple([
+              Validatorless.required('Campo obrigatório'),
+              Validatorless.max(32, 'O nome deve ter no máximo 32 caracteres'),
+            ]),
           ),
           divider,
           TextFormField(
@@ -330,6 +336,14 @@ class _ContactEditForm extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: 'E-mail',
             ),
+            validator: Validatorless.multiple([
+              Validatorless.required('Campo obrigatório'),
+              Validatorless.email('E-mail inválido'),
+              Validatorless.max(
+                32,
+                'O e-mail deve ter no máximo 64 caracteres',
+              ),
+            ]),
           ),
           divider,
           TextFormField(
@@ -344,6 +358,13 @@ class _ContactEditForm extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: 'Telefone',
             ),
+            validator: Validatorless.multiple([
+              Validatorless.required('Campo obrigatório'),
+              Validatorless.regex(
+                RegExp(r'^\(\d{2}\) \d{4,5}-\d{4}$'),
+                'Telefone inválido',
+              ),
+            ]),
           ),
           divider,
           TextFormField(
@@ -357,6 +378,12 @@ class _ContactEditForm extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: 'Observação',
             ),
+            validator: Validatorless.multiple([
+              Validatorless.max(
+                255,
+                'A observação deve ter no máximo 255 caracteres',
+              ),
+            ]),
           ),
         ],
       ),

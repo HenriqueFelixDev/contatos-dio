@@ -29,6 +29,7 @@ dependencies:
   image_cropper: ^4.0.1
   google_fonts: ^4.0.4
   brasil_fields: ^1.14.0
+  validatorless: ^1.2.3
 
 dev_dependencies:
   flutter_test:
