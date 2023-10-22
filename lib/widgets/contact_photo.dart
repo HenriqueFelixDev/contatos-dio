@@ -20,7 +20,8 @@ class ContactPhoto extends StatelessWidget {
       tag: 'contactHero$contactId',
       child: CircleAvatar(
         radius: radius,
-        backgroundImage: photoUrl.isEmpty ? null : FileImage(File(photoUrl)),
+        backgroundImage: const AssetImage('assets/images/avatar.jpg'),
+        foregroundImage: photoUrl.isEmpty ? null : FileImage(File(photoUrl)),
       ),
     );
   }
