@@ -2,7 +2,10 @@ import 'package:contact_api/contact_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../../widgets/widgets.dart';
 import 'bloc/contact_edit_bloc.dart';
 
 class ContactEditPage extends StatelessWidget {
@@ -106,20 +109,119 @@ class _ContactEditView extends StatelessWidget {
 class _ContactHeader extends StatelessWidget {
   const _ContactHeader();
 
+  Future<ImageSource?> _selectImageSource(BuildContext context) async {
+    const bottomSheetShape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+    );
+
+    return await showModalBottomSheet<ImageSource>(
+      context: context,
+      shape: bottomSheetShape,
+      builder: (context) {
+        return BottomSheet(
+          shape: bottomSheetShape,
+          enableDrag: false,
+          onClosing: () {},
+          builder: (context) {
+            return const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Selecione o local da imagem',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black54)
+                  ),
+                  SizedBox(height: 8.0),
+                  Wrap(
+                    alignment: WrapAlignment.spaceEvenly,
+                    children: [
+                      ImageSourceItem(
+                        icon: Icons.camera_alt,
+                        label: 'Câmera',
+                        value: ImageSource.camera,
+                      ),
+                      ImageSourceItem(
+                        icon: Icons.image_rounded,
+                        label: 'Galeria',
+                        value: ImageSource.gallery,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _pickImage(BuildContext context) async {
+    final controller = context.read<ContactEditBloc>();
+    final colors = Theme.of(context).colorScheme;
+
+    final imageSource = await _selectImageSource(context);
+
+    if (imageSource == null) return;
+
+    final image = await ImagePicker().pickImage(source: imageSource);
+
+    if (image == null) return;
+
+    await _cropImage(controller, colors, image);
+  }
+
+  Future<void> _cropImage(
+    ContactEditBloc controller,
+    ColorScheme colors,
+    XFile image,
+  ) async {
+    final croppedImage = await ImageCropper().cropImage(
+      sourcePath: image.path,
+      aspectRatioPresets: [CropAspectRatioPreset.square],
+      cropStyle: CropStyle.rectangle,
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Recortar Foto',
+          toolbarColor: colors.primary,
+          showCropGrid: true,
+          lockAspectRatio: true,
+          initAspectRatio: CropAspectRatioPreset.square,
+          toolbarWidgetColor: colors.onPrimary,
+          activeControlsWidgetColor: colors.primary,
+        ),
+        IOSUiSettings(
+          title: 'Recortar Foto',
+        ),
+      ],
+    );
+
+    if (croppedImage != null) {
+      controller.setPhotoUrl(croppedImage.path);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final id = context.read<ContactEditBloc>().state.initialValue?.id;
-
     return CustomPaint(
       painter: _ContactEditHeaderCustomPainter(
         color: Theme.of(context).primaryColor,
       ),
-      child: Container(
-        height: 200.0,
-        alignment: Alignment.bottomCenter,
-        child: Hero(
-          tag: 'contactPhoto$id',
-          child: const CircleAvatar(radius: 70.0),
+      child: GestureDetector(
+        onTap: () => _pickImage(context),
+        child: Container(
+          height: 200.0,
+          alignment: Alignment.bottomCenter,
+          child: BlocBuilder<ContactEditBloc, ContactEditState>(
+            buildWhen: (previous, current) =>
+                previous.photoUrl != current.photoUrl,
+            builder: (context, state) {
+              return ContactPhoto(photoUrl: state.photoUrl, radius: 70.0);
+            },
+          ),
         ),
       ),
     );

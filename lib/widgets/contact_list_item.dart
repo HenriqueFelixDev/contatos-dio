@@ -2,6 +2,7 @@ import 'package:contact_api/contact_api.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/contact_edit/contact_edit_page.dart';
+import 'contact_photo.dart';
 
 class ContactListItem extends StatelessWidget {
   final Contact contact;
@@ -22,10 +23,7 @@ class ContactListItem extends StatelessWidget {
       onTap: () => _onPressed(context),
       visualDensity: VisualDensity.compact,
       isThreeLine: true,
-      leading: Hero(
-        tag: 'contactPhoto${contact.id}',
-        child: const CircleAvatar(radius: 30.0),
-      ),
+      leading: ContactPhoto(photoUrl: contact.photoUrl, radius: 30.0),
       title: Text(contact.name),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

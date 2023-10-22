@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Acesso à biblioteca de fotos para carregar imagens dos contatos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Acesso à camera para capturar imagens para os contatos</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Acesso ao microfone para capturar o áudio durante a gravação de vídeo</string>
 </dict>
 </plist>
