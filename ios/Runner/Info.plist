@@ -51,5 +51,11 @@
 	<string>Acesso à camera para capturar imagens para os contatos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Acesso ao microfone para capturar o áudio durante a gravação de vídeo</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>sms</string>
+		<string>tel</string>
+		<string>mailto</string>
+	</array>
 </dict>
 </plist>

@@ -1,5 +1,6 @@
 import 'package:contact_api/contact_api.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../pages/contact_edit/contact_edit_page.dart';
 import 'contact_photo.dart';
@@ -33,7 +34,7 @@ class ContactListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(contact.phone),
-          const _ContactActions(),
+          _ContactActions(contact: contact),
         ],
       ),
     );
@@ -41,7 +42,14 @@ class ContactListItem extends StatelessWidget {
 }
 
 class _ContactActions extends StatelessWidget {
-  const _ContactActions();
+  final Contact contact;
+  const _ContactActions({required this.contact});
+
+  Future<void> _launchUrl(String url) async {
+    if (await canLaunchUrlString(url)) {
+      launchUrlString(url);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,17 +62,17 @@ class _ContactActions extends StatelessWidget {
         children: [
           IconButton(
             visualDensity: VisualDensity.compact,
-            onPressed: () {},
+            onPressed: () => _launchUrl('tel:${contact.phone}'),
             icon: const Icon(Icons.phone),
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
-            onPressed: () {},
+            onPressed: () => _launchUrl('sms:${contact.phone}'),
             icon: const Icon(Icons.sms),
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
-            onPressed: () {},
+            onPressed: () => _launchUrl('mailto:${contact.email}'),
             icon: const Icon(Icons.alternate_email),
           ),
         ],
