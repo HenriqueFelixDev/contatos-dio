@@ -207,25 +207,41 @@ class _ContactHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const photoRadius = 70.0;
+    const overlaySize = photoRadius * 2;
+
     return CustomPaint(
       painter: _ContactEditHeaderCustomPainter(
         color: Theme.of(context).primaryColor,
       ),
       child: GestureDetector(
         onTap: () => _pickImage(context),
-        child: Container(
+        child: SizedBox(
           height: 200.0,
-          alignment: Alignment.bottomCenter,
-          child: BlocBuilder<ContactEditBloc, ContactEditState>(
-            buildWhen: (previous, current) =>
-                previous.photoUrl != current.photoUrl,
-            builder: (context, state) {
-              return ContactPhoto(
-                contactId: state.initialValue?.id ?? '',
-                photoUrl: state.photoUrl,
-                radius: 70.0,
-              );
-            },
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              BlocBuilder<ContactEditBloc, ContactEditState>(
+                buildWhen: (previous, current) =>
+                    previous.photoUrl != current.photoUrl,
+                builder: (context, state) {
+                  return ContactPhoto(
+                    contactId: state.initialValue?.id ?? '',
+                    photoUrl: state.photoUrl,
+                    radius: photoRadius,
+                  );
+                },
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(overlaySize),
+                child: Container(
+                  width: overlaySize,
+                  height: overlaySize,
+                  color: Colors.black45,
+                  child: const Icon(Icons.camera_alt, color: Colors.white),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -248,10 +264,10 @@ class _ContactEditHeaderCustomPainter extends CustomPainter {
 
     path.moveTo(width, 0.0);
     path.lineTo(0.0, 0.0);
-    path.lineTo(0.0, height - 50.0);
+    path.lineTo(0.0, height - 70.0);
     path.quadraticBezierTo(
-        width * 0.25, height - 30, width * 0.75, height - 40);
-    path.lineTo(width, height - 50.0);
+        width * 0.25, height - 40, width * 0.80, height - 60);
+    path.lineTo(width, height - 70.0);
     path.close();
 
     canvas.drawPath(path, paint);
