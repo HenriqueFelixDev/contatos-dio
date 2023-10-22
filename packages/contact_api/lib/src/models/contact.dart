@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 
 class Contact extends Equatable {
@@ -49,4 +52,30 @@ class Contact extends Equatable {
       note,
     ];
   }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'phone': phone,
+      'email': email,
+      'photoUrl': photoUrl,
+      'note': note,
+    };
+  }
+
+  factory Contact.fromMap(Map<String, dynamic> map) {
+    return Contact(
+      id: map['id'] as String,
+      name: map['name'] as String,
+      phone: map['phone'] as String,
+      email: map['email'] as String,
+      photoUrl: map['photoUrl'] as String,
+      note: map['note'] != null ? map['note'] as String : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Contact.fromJson(String source) => Contact.fromMap(json.decode(source) as Map<String, dynamic>);
 }

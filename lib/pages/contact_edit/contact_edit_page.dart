@@ -108,6 +108,8 @@ class _ContactHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final id = context.read<ContactEditBloc>().state.initialValue?.id;
+
     return CustomPaint(
       painter: _ContactEditHeaderCustomPainter(
         color: Theme.of(context).primaryColor,
@@ -115,7 +117,10 @@ class _ContactHeader extends StatelessWidget {
       child: Container(
         height: 200.0,
         alignment: Alignment.bottomCenter,
-        child: const CircleAvatar(radius: 70.0),
+        child: Hero(
+          tag: 'contactPhoto$id',
+          child: const CircleAvatar(radius: 70.0),
+        ),
       ),
     );
   }
@@ -159,7 +164,8 @@ class _SaveButton extends StatelessWidget {
     return IconButton(
       onPressed: () {
         if (Form.of(context).validate()) {
-          FocusScope.of(context).unfocus(); // removes textfield focus, hiding the keyboard
+          FocusScope.of(context)
+              .unfocus(); // removes textfield focus, hiding the keyboard
           context.read<ContactEditBloc>().save();
         }
       },

@@ -28,15 +28,28 @@ extension ParseContact on ParseObject {
 }
 
 class ContactApiParse implements ContactApi {
+  ContactApiParse();
+
   final _contactsSubject = BehaviorSubject<List<Contact>>.seeded([]);
 
   @override
   Stream<List<Contact>> get contacts => _contactsSubject.asBroadcastStream();
 
   @override
+  Future<void> fetchContacts() async {
+    final response = await ParseObject('Contact').getAll();
+
+    final contacts = response.results
+        ?.map((result) => (result as ParseObject).toContact())
+        .toList();
+
+    _contactsSubject.sink.add(contacts ?? []);
+  }
+
+  @override
   Future<void> create(Contact contact) async {
     final parseContact = contact.toParse();
-    final contacts =  List<Contact>.from(_contactsSubject.value);
+    final contacts = List<Contact>.from(_contactsSubject.value);
 
     final user = await ParseUser.currentUser() as ParseUser?;
     parseContact.setACL(ParseACL(owner: user));
